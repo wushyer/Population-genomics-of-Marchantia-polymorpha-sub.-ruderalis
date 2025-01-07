@@ -283,54 +283,8 @@ ggplot(BS_pi, aes(V2,V3,color=V1),guide="none")+geom_jitter()+geom_boxplot(fill=
 
 
 ######Figure 3C IBD IBE####
-# setwd("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst/Fst-vcftools")
-# plot_data=read.csv("plot_data.csv",head=T)
-# ##manully remove 0 line
-# p1=ggplot(plot_data)+geom_point(aes(x=geo_dit,y=fst),size = 3,alpha=0.7,color="black",shape=21,fill="#708090")+geom_smooth(aes(x=geo_dit, y=fst),alpha=0.7,formula = y ~ x, method = lm,se=T,level=0.95,color="#9c9c9c", fill="#d6d6d6",size = 1.5,fullrange = F) +labs(x = "Geographical Distance (m)",y = expression(italic(F)[italic(ST)]/(1-italic(F)[italic(ST)])),size = 3)+panel_border(color = "black", size = 0.6, linetype = 1, remove = FALSE)+theme_bw()+theme(text=element_text(family="sans"),axis.ticks.length = unit(0.25,"lines"),axis.ticks=element_line(colour="black",unit(0.6,"line")),axis.text.x=element_text(size=12,colour = "black"),axis.text.y=element_text(size=12,colour = "black"), plot.title = element_text(size = 15L,hjust = 0),axis.title.y = element_text(size = 15),axis.title.x = element_text(size = 15),panel.background=element_rect(fill="white"),plot.background = element_rect(fill = "white"),panel.grid.major =element_blank(), panel.grid.minor = element_blank(),plot.margin=unit(c(0.1,0.1,0.1,0.1),"mm"))
-# 
-# df.lm<-lm(`geo_dit`~`fst`,data=plot_data)
-# summary(df.lm)
-# Multiple R-squared:0.1614,	Adjusted R-squared:  0.1404 
-# 
-# Mantel statistic r: -0.4017 
-# Significance: 0.948 
-# 
-# 
-# p2=ggplot(plot_data)+
-#   geom_point(aes(x=env_dist,y=fst),size = 3,alpha=0.7,color="black",shape=21,fill="#708090")+
-#   geom_smooth(aes(x=env_dist, y=fst),alpha=0.7,formula = y ~ x, method = lm,se=T,level=0.95,color="#9c9c9c", fill="#d6d6d6",size = 1.5,fullrange = F) +
-#   labs(x = "Environment Distance",y = expression(italic(F)[italic(ST)]/(1-italic(F)[italic(ST)])),size = 3)+
-#   panel_border(color = "black", size = 0.6, linetype = 1, remove = FALSE)+
-#   theme_bw()+
-#   theme(text=element_text(family="sans"),
-#         axis.ticks.length = unit(0.25,"lines"),axis.ticks=element_line(colour="black",unit(0.6,"line")),
-#         axis.text.x=element_text(size=12,colour = "black"),
-#         axis.text.y=element_text(size=12,colour = "black"), 
-#         plot.title = element_text(
-#           size = 15L,
-#           hjust = 0
-#         ),
-#         axis.title.y = element_text(size = 15),
-#         axis.title.x = element_text(size = 15),
-#         panel.background=element_rect(fill="white"),
-#         plot.background = element_rect(fill = "white"),
-#         #axis.line.x=element_line(colour="black"),
-#         #axis.line.y=element_line(colour="black"),
-#         #panel.border=element_blank(),
-#         panel.grid.major =element_blank(), panel.grid.minor = element_blank(),
-#         plot.margin=unit(c(0.1,0.1,0.1,0.1),"mm"))
-# all=plot_grid(p1,p2,align ="v",label_size = 10,label_fontfamily = "sans",label_fontface = 1,ncol=1)
-# 
-# df.lm<-lm(`env_dist`~`fst`,data=plot_data)
-# summary(df.lm)
-# Multiple R-squared:  0.08845,	Adjusted R-squared:  0.06566
-# 
-# Mantel statistic r: -0.2974 
-# Significance: 0.902 
-# 
-# ggsave(all,file="IBD-IBE.pdf",width=5.5,height=8)
 
-#another plot
+
 
 p_dis<-ggscatter(plot_data, x = "geo_dit", y = "fst",
           size = 2.5,
@@ -565,34 +519,10 @@ data %>%group_by(comparison,data_type) %>%summarise(median = median(value, na.rm
 view(data %>%group_by(comparison,data_type) %>%summarise(median = median(value, na.rm = TRUE)))
 data %>%group_by(chromosome,data_type) %>%summarise(median = median(value, na.rm = TRUE))
 
-##centromere region value
-(base) [shuangyang.wu@clip-login-1 UV-specific]$ less -S chrVU.20K.pi |grep chrU|awk '$3>=2790708 && $4<=4080602'|cut -f1,5|grep Japan|cut -f2|datamash min 1 max 1 median 1 mean 1
-0	0.0022773570122747	0.00050255632257945	0.00054338622363718
-(base) [shuangyang.wu@clip-login-1 UV-specific]$ less -S chrVU.20K.pi |grep chrU|awk '$3>=2790708 && $4<=4080602'|cut -f1,5|grep Europe|cut -f2|datamash min 1 max 1 median 1 mean 1
-0	0.004458578615617	0.0012279001820941	0.0014239249345943
-(base) [shuangyang.wu@clip-login-1 UV-specific]$ less -S chrVU.20K.pi |grep chrU|awk '!($3>=2790708 && $4<=4080602)'|cut -f1,5|grep Europe|cut -f2|datamash min 1 max 1 median 1 mean 1
-0	0.0051638482969966	0.0023584636862914	0.0020725225693514
-(base) [shuangyang.wu@clip-login-1 UV-specific]$ less -S chrVU.20K.pi |grep chrU|awk '!($3>=2790708 && $4<=4080602)'|cut -f1,5|grep Japan|cut -f2|datamash min 1 max 1 median 1 mean 1
-0	0.0029069046281365	0.00083758187673585	0.00078104238890872
 
 
 
-#new figure
-tmp_fst <- data %>% dplyr::filter(data_type=="Fst")
-tmp_fst%>%ggplot() +
-  aes(x = position*20000, y = value)+
-  geom_point(alpha = 0.5, color = "black", fill = "#999999", shape = 21)+
-  geom_smooth(span = 0.4, se = F, method = "loess")+
-  facet_grid(.~chromosome, scales = "free")+
-  theme_bw()+
-  theme(legend.box = NULL,
-        strip.background = element_blank(),
-        legend.background = element_rect(colour = NA),
-        legend.key = element_blank(),
-        strip.text.x = element_blank(),
-        axis.text.x = element_blank())+
-  labs(x = "Genomic Position (Mb)", y = "Fst")->FST_UV
-FST_UV
+
 
 Fst_chr_UV=ggplot(tmp_fst, aes(value,chromosome, fill=chromosome), guide="none") +
   geom_density_ridges(quantile_lines=TRUE, quantile_fun=function(x,...)median(x), size=0.5) +theme_bw() + theme(legend.position = "none", axis.text.y=element_blank(),axis.text = element_text(size = 5)) +xlim(0,0.5)+scale_fill_manual(values = c("#FDD876", "#87c9c3")) +labs(x="Fst value of each autosome", y="Density")
@@ -604,157 +534,6 @@ data %>%group_by(chromosome,data_type) %>%summarise(median = median(value, na.rm
 
 ggplot(pi_data, aes(chromosome,avg_pi,color=pop),guide="none")+geom_boxplot()+stat_compare_means()+scale_color_manual(values = c("#FDD876", "#87c9c3"))+facet_grid(.~chromosome,scales = "free")+theme_bw()+labs(y = "Pi")
 
-Pi_chr_UV<-ggplot(pi_data, aes(chromosome,avg_pi,color=pop),guide="none")+geom_boxplot()+stat_compare_means()+scale_color_manual(values = c("#FDD876", "#87c9c3"))+facet_grid(.~chromosome,scales = "free")+theme_bw()+labs(y = "Pi")
-Pi_Figure_UV+Pi_chr_UV+FST_UV+Fst_chr_UV+plot_layout(ncol=2)
-
-
-
-V_gam_pi<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/Gamtolog/V/V.gamte.pi.Europe.Japan",header = T)
-V_gam_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-ggpaired(V_gam_pi, x="group", y="value", fill="group",id = "sample",
-         add="jitter",line.color = "gray", line.size = 0.5,
-         palette=c('#00AFBB', '#E7B800'),
-         xlab=" ",
-         ylab="Pi",
-         legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-V_gam_Fig<-ggpaired(V_gam_pi, x="group", y="value", fill="group",id = "sample",
-                    add="jitter",line.color = "gray", line.size = 0.5,
-                    palette=c('#00AFBB', '#E7B800'),
-                    xlab=" ",
-                    ylab="Pi",
-                    legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_gam_pi<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/Gamtolog/U/U.gamte.pi.Europe.Japan",header = T)
-
-U_gam_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-
-
-V_gam_Fig<-ggpaired(V_gam_pi, x="group", y="value", fill="group",id = "sample",
-                    add="jitter",line.color = "gray", line.size = 0.5,
-                    palette=c('#00AFBB', '#E7B800'),
-                    xlab=" ",
-                    ylab="Pi",
-                    legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_gam_Fig<-ggpaired(U_gam_pi, x="group", y="value", fill="group",id = "sample",
-                    add="jitter",line.color = "gray", line.size = 0.5,
-                    palette=c('#00AFBB', '#E7B800'),
-                    xlab=" ",
-                    ylab="Pi",
-                    legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-UV_Gam<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/UV.gamet.value",header = T)
-UV_Gam %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-ggpaired(UV_Gam, x="group", y="value", fill="group",id = "sample",
-         add="jitter",line.color = "gray", line.size = 0.5,
-         palette=c('#00AFBB', '#E7B800'),
-         xlab=" ",
-         ylab="Fst",
-         legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("chrU", "chrV"))) +theme(legend.position = 'none')
-Gam_Fst_Fig<-ggpaired(UV_Gam, x="group", y="value", fill="group",id = "sample",
-                      add="jitter",line.color = "gray", line.size = 0.5,
-                      palette=c('#3B4992FF', '#EE0000FF'),
-                      xlab=" ",
-                      ylab="Fst",
-                      legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("chrU", "chrV"))) +theme(legend.position = 'none')
-U_gam_Fig|V_gam_Fig|Gam_Fst_Fig
-
-
-V_gam_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-U_gam_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-UV_Gam %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-
-
-V_spec_pi<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/Specific/V/V.specific.pi.Europe.Japan",header = T)
-V_spec_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-ggpaired(V_spec_pi, x="group", y="value", fill="group",id = "sample",
-         add="jitter",line.color = "gray", line.size = 0.5,
-         palette=c('#00AFBB', '#E7B800'),
-         xlab=" ",
-         ylab="Pi",
-         legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_spec_pi<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/Specific/U/U.specific.pi.Europe.Japan",header = T)
-U_spec_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-U_spec_Fig<-ggpaired(V_spec_pi, x="group", y="value", fill="group",id = "sample",
-                     add="jitter",line.color = "gray", line.size = 0.5,
-                     palette=c('#00AFBB', '#E7B800'),
-                     xlab=" ",
-                     ylab="Pi",
-                     legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_spec_Fig
-U_spec_Fig<-ggpaired(U_spec_pi, x="group", y="value", fill="group",id = "sample",
-                     add="jitter",line.color = "gray", line.size = 0.5,
-                     palette=c('#00AFBB', '#E7B800'),
-                     xlab=" ",
-                     ylab="Pi",
-                     legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_spec_Fig
-speci<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/speci.value",header = F)
-speci %>%group_by(V1) %>%summarise(median = median(V2, na.rm = TRUE))
-Fst_Specific<-ggplot(speci,aes(V1,V2,color=V1),guide="none")+geom_boxplot()+geom_jitter()+scale_color_aaas()+theme_bw()+stat_compare_means(method = "t.test",comparisons=list(c("chrU", "chrV")))+labs(y = "Fst of U/V specific genes")
-V_spec_Fig<-ggpaired(V_spec_pi, x="group", y="value", fill="group",id = "sample",
-                     add="jitter",line.color = "gray", line.size = 0.5,
-                     palette=c('#00AFBB', '#E7B800'),
-                     xlab=" ",
-                     ylab="Pi of V specific genes",
-                     legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_spec_Fig<-ggpaired(U_spec_pi, x="group", y="value", fill="group",id = "sample",
-                     add="jitter",line.color = "gray", line.size = 0.5,
-                     palette=c('#00AFBB', '#E7B800'),
-                     xlab=" ",
-                     ylab="Pi of U specific genes",
-                     legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-U_spec_Fig|V_spec_Fig|Fst_Specific
-
-U_gam_Fig|V_gam_Fig|Gam_Fst_Fig
-U_spec_Fig|V_spec_Fig|Fst_Specific
-
-U_spec_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-V_spec_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-speci %>%group_by(V1) %>%summarise(median = median(V2, na.rm = TRUE))
-
-U_gam_Fig+V_gam_Fig+Gam_Fst_Fig+U_spec_Fig+V_spec_Fig+Fst_Specific+plot_layout(ncol=3)
-
-#TE_Fst_Specific
-TE_speci<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/TE-intergenic/TE.fst.value",header = F)
-TE_speci %>%group_by(V1) %>%summarise(median = median(V2, na.rm = TRUE))
-
-TE_Fst_Specific<-ggplot(TE_speci,aes(V1,V2,fill=V1),guide="none")+geom_boxplot()+scale_fill_aaas()+theme_bw()+stat_compare_means(method = "t.test",comparisons=list(c("chrU", "chrV")))+labs(y = "Fst of U/V TEs")
-
-
-U_TE_pi<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/TE-intergenic/U.TE.pi.Europe.Japan",header = T)
-U_TE_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-
-U_TE_Fig<-ggpaired(U_TE_pi, x="group", y="value", fill="group",id = "sample",
-                   add="jitter",line.color = "gray", line.size = 0.5,
-                   palette=c('#00AFBB', '#E7B800'),
-                   xlab=" ",
-                   ylab="Pi of U gametolog genes",
-                   legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-
-V_TE_pi<-read.table("/scratch-cbe/users/shuangyang.wu/Backup-data-9/rudealis/All-data/new/gvcf-209/78-no-dup-fq/old-assembly-fullUV/3-Pi-Fst-1/Euro-Japan/UV-specific/TE-intergenic/U.TE.pi.Europe.Japan",header = T)
-V_TE_pi %>%group_by(group) %>%summarise(median = median(value, na.rm = TRUE))
-
-V_TE_Fig<-ggpaired(V_TE_pi, x="group", y="value", fill="group",id = "sample",
-                   add="jitter",line.color = "gray", line.size = 0.5,
-                   palette=c('#00AFBB', '#E7B800'),
-                   xlab=" ",
-                   ylab="Pi of U gametolog genes",
-                   legend.title=" ",show.legend = F) +
-  stat_compare_means(method = "t.test",paired = TRUE, comparisons=list(c("Europe", "Japan"))) +theme(legend.position = 'none')
-V_TE_Fig
-U_TE_Fig|V_TE_Fig|TE_Fst_Specific
-
-U_gam_Fig+V_gam_Fig+Gam_Fst_Fig+U_spec_Fig+V_spec_Fig+Fst_Specific+U_TE_Fig+V_TE_Fig+TE_Fst_Specific+plot_layout(ncol=3)
 
 ####try tjmd#####
 tjmd_data<-read.table("all.V.tjmd", header=T)
@@ -848,42 +627,6 @@ colnames(corrmatrix) = as.character(names(raw_data))
 testRes = cor.mtest(corrmatrix, conf.level = 0.95)
 
 corrplot(corrmatrix, p.mat = testRes$p, method = 'circle', diag = TRUE, type = 'upper', sig.level = c(0.001, 0.01, 0.05), pch.cex = 0.9, insig = 'label_sig', pch.col = 'grey20',col=col3(20))
-
-corrplot(corrmatrix, method="circle", #square方形，ellipse, 椭圆形，number数值，shade阴影，color颜色，pie饼图
-         p.mat = testRes$p,sig.level = c(0.001, 0.01, 0.05),pch.cex = 0.9, insig = 'label_sig',col=col3(20),   #指定标题
-         type="full", #full完全(默认)，lower下三角，upper上三角
-         #col=c("#FF6666", "white", "#0066CC"), #指定图形展示的颜色，默认以均匀的颜色展示。支持grDevices包中的调色板，也支持RColorBrewer包中调色板。
-         outline = F,  #是否添加圆形、方形或椭圆形的外边框，默认为FALSE。
-         diag = TRUE,  #是否展示对角线上的结果，默认为TRUE
-         mar = c(0,0,0,0), #设置图形的四边间距。数字分别对应(bottom, left, top, right)。
-         bg="white", #指定背景颜色
-         add = FALSE, #表示是否添加到已经存在的plot中。默认FALSE生成新plot。
-         is.corr = TRUE, #是否为相关系数绘图，默认为TRUE,FALSE则可将其它数字矩阵进行可视化。
-         addgrid.col = "darkgray", #设置网格线颜色，当指定method参数为color或shade时， 默认的网格线颜色为白色，其它method则默认为灰色，也可以自定义颜色。
-         addCoef.col = NULL, #设置相关系数值的颜色，只有当method不是number时才有效
-         addCoefasPercent = FALSE, #是否将相关系数转化为百分比形式，以节省空间，默认为FALSE。
-         order = "original", #指定相关系数排序的方法, 可以是original原始顺序，AOE特征向量角序，FPC第一主成分顺序，hclust层次聚类顺序，alphabet字母顺序。
-         hclust.method = "complete", # 指定hclust中细分的方法，只有当指定order参数为hclust时有效。有7种可选：complete,ward,single,average,mcquitty,median,centroid。
-         addrect = NULL, #是否添加矩形框，只有当指定order参数为hclust时有效， 默认不添加， 用整数指定即可添加。
-         rect.col = "black", #指定矩形框的颜色。
-         rect.lwd = 2, #指定矩形框的线宽。
-         tl.pos = NULL,  #指定文本标签(变量名称)相对绘图区域的位置，为"lt"(左侧和顶部),"ld"(左侧和对角线),"td"(顶部和对角线),"d"(对角线),"n"(无);当type="full"时默认"lt"。当type="lower"时默认"ld"。当type="upper"时默认"td"。
-         tl.cex = 1,  #设置文本标签的大小
-         tl.col = "black", #设置文本标签的颜色。
-         cl.pos = NULL #设置图例位置，为"r"(右边),"b"(底部),"n"(无)之一。当type="full"/"upper"时，默认"r"; 当type="lower"时，默认"b"。
-)
-
-corrplot(corrmatrix, title = "",        
-         method = "number", #square方形，ellipse, 椭圆形，number数值，shade阴影，color颜色，pie饼图       
-         outline = F, #是否添加圆形、方形或椭圆形的外边框，默认为FALSE。
-         add = TRUE, #表示是否添加到已经存在的plot中。默认FALSE生成新plot。
-         type = "lower", #full完全(默认)，lower下三角，upper上三角       
-         order="original",
-         col="black", #指定图形展示的颜色，默认以均匀的颜色展示。支持grDevices包中的调色板，也支持RColorBrewer包中调色板。
-         diag=FALSE, #是否展示对角线上的结果，默认为TRUE
-         tl.pos="n",  #指定文本标签(变量名称)相对绘图区域的位置，为"lt"(左侧和顶部),"ld"(左侧和对角线),"td"(顶部和对角线),"d"(对角线),"n"(无)
-         cl.pos=NULL #设置图例位置，为"r"(右边),"b"(底部),"n"(无)之一。
-)
 
 
 
